@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원소기호 마스터</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ====== THEME VARIABLES ====== */
+:root {
+  --bg: #0a0e1a;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --border: #2a3a55;
+  --accent: #00d4ff;
+  --accent2: #ff6b35;
+  --accent3: #7fff6a;
+  --text: #e8f0ff;
+  --text-dim: #7a8aaa;
+  --correct: #22c55e;
+  --wrong: #ef4444;
+  --header-bg: rgba(10,14,26,0.88);
+  --glow1: rgba(0,212,255,0.07);
+  --glow2: rgba(255,107,53,0.06);
+}
+[data-theme="light"] {
+  --bg: #f0f4ff;
+  --surface: #ffffff;
+  --surface2: #e8edf8;
+  --border: #c8d4ea;
+  --accent: #0077bb;
+  --accent2: #e05520;
+  --accent3: #2a9d2a;
+  --text: #1a2340;
+  --text-dim: #5a6a8a;
+  --correct: #16a34a;
+  --wrong: #dc2626;
+  --header-bg: rgba(240,244,255,0.92);
+  --glow1: rgba(0,119,187,0.05);
+  --glow2: rgba(224,85,32,0.04);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, var(--glow1) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, var(--glow2) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ====== HEADER ====== */
+header {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 1.6rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  flex-wrap: wrap; gap: 0.5rem;
+  transition: background 0.3s, border-color 0.3s;
+}
+.logo { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 800; letter-spacing: 0.05em; }
+.logo span { color: var(--accent); }
+.header-right { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.nav-tabs { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.nav-tab {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem; padding: 0.35rem 0.78rem;
+  border: 1px solid var(--border);
+  background: transparent; color: var(--text-dim);
+  border-radius: 4px; cursor: pointer; transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+.nav-tab:hover { border-color: var(--accent); color: var(--accent); }
+.nav-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+[data-theme="light"] .nav-tab.active { color: #fff; }
+
+/* Theme toggle */
+.theme-toggle {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.28rem 0.6rem;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.theme-toggle .icon { font-size: 0.9rem; }
+
+/* ====== SCREENS ====== */
+.screen { display: none; position: relative; z-index: 5; }
+.screen.active { display: block; }
+
+/* ====== HOME ====== */
+#home { display: none; min-height: calc(100vh - 58px); padding: 2.5rem 2rem; align-items: center; justify-content: center; flex-direction: column; text-align: center; gap: 1.8rem; }
+#home.active { display: flex; }
+.home-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem,5vw,3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+.home-title .hl { color: var(--accent); }
+.home-title .hl2 { color: var(--accent2); }
+.home-subtitle { font-size: 0.92rem; color: var(--text-dim); max-width: 460px; line-height: 1.7; }
+.game-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 0.9rem; width: 100%; max-width: 860px; margin-top: 0.5rem; }
+.game-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 1.3rem; cursor: pointer; transition: all 0.22s; text-align: left; }
+.game-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.game-card:nth-child(2):hover { border-color: var(--accent2); }
+.game-card:nth-child(3):hover { border-color: var(--accent3); }
+.game-card:nth-child(4):hover { border-color: #a78bfa; }
+.card-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+.card-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.25rem; }
+.card-desc { font-size: 0.76rem; color: var(--text-dim); line-height: 1.5; }
+
+/* ====== SHARED ====== */
+.btn { font-family: 'Syne', sans-serif; font-size: 0.86rem; font-weight: 700; padding: 0.65rem 1.6rem; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--text-dim); }
+.btn-danger { background: transparent; color: var(--accent2); border: 1px solid var(--accent2); }
+.btn-danger:hover { background: rgba(255,107,53,0.1); }
+.page-pad { padding: 1.8rem 2rem; }
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.3rem; flex-wrap: wrap; gap: 0.8rem; }
+.page-title { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; }
+.result-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; margin-top: 1.8rem; display: none; text-align: center; }
+.result-panel.show { display: block; }
+.result-score { font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 800; color: var(--accent); margin-bottom: 0.4rem; }
+.result-label { font-size: 0.95rem; color: var(--text-dim); margin-bottom: 1.1rem; }
+.result-grade { display: inline-block; font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; padding: 0.4rem 1.6rem; border-radius: 6px; margin-bottom: 1.1rem; }
+.action-row { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center; margin-top: 1.2rem; }
+.stat-row { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 1rem; text-align: center; }
+.stat-val { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+.stat-lbl { font-size: 0.65rem; color: var(--text-dim); }
+.info-badge { font-family: 'Space Mono', monospace; font-size: 0.7rem; padding: 0.27rem 0.7rem; border: 1px solid var(--border); border-radius: 4px; color: var(--text-dim); }
+.info-badge span { color: var(--accent); font-weight: 700; }
+.progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 1rem; }
+.progress-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; border-radius: 2px; }
+
+/* ====== QUIZ ====== */
+#quiz.active { display: block; }
+.quiz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px,1fr)); gap: 0.7rem; margin-bottom: 1.3rem; }
+.quiz-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem; transition: all 0.2s; }
+.quiz-item.correct { border-color: var(--correct); background: color-mix(in srgb, var(--correct) 8%, transparent); }
+.quiz-item.wrong { border-color: var(--wrong); background: color-mix(in srgb, var(--wrong) 8%, transparent); }
+.item-number { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-dim); margin-bottom: 0.25rem; }
+.item-name { font-size: 0.85rem; font-weight: 500; margin-bottom: 0.5rem; }
+.quiz-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.5rem; color: var(--text); font-family: 'Space Mono', monospace; font-size: 0.88rem; text-align: center; transition: all 0.2s; letter-spacing: 0.06em; }
+.quiz-input:focus { outline: none; border-color: var(--accent); }
+.quiz-input:disabled { opacity: 0.6; cursor: not-allowed; }
+.quiz-input.correct { border-color: var(--correct); color: var(--correct); }
+.quiz-input.wrong { border-color: var(--wrong); color: var(--wrong); }
+.answer-badge { font-family: 'Space Mono', monospace; font-size: 0.76rem; text-align: center; padding: 0.25rem 0; display: none; }
+.answer-badge.show { display: block; }
+.answer-badge.correct-ans { color: var(--correct); }
+.answer-badge.wrong-ans { color: var(--wrong); }
+
+/* ====== PERIODIC TABLE CELLS ====== */
+.periodic-grid { display: grid; grid-template-columns: repeat(18,1fr); gap: 3px; overflow-x: auto; padding-bottom: 0.5rem; }
+.pt-cell {
+  aspect-ratio: 1; min-width: 30px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: default; transition: all 0.14s;
+  position: relative; overflow: hidden; user-select: none;
+}
+.pt-cell.empty { background: transparent; border-color: transparent; }
+.pt-cell.interactive { cursor: pointer; }
+.pt-cell.interactive:hover { transform: scale(1.08); z-index: 20; border-color: var(--accent); background: var(--surface2); }
+.pt-num { font-family: 'Space Mono', monospace; font-size: 0.4rem; color: var(--text-dim); line-height: 1; }
+.pt-sym { font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--text); line-height: 1; }
+.pt-kr { font-size: 0.32rem; color: var(--text-dim); line-height: 1; text-align: center; overflow: hidden; max-width: 100%; }
+
+/* Group colors */
+.pt-cell.alkali       { background: rgba(255,107,53,0.13); }
+.pt-cell.alkaline     { background: rgba(255,200,53,0.13); }
+.pt-cell.transition   { background: rgba(0,212,255,0.09); }
+.pt-cell.post-transition { background: rgba(127,255,106,0.09); }
+.pt-cell.metalloid    { background: rgba(200,130,255,0.13); }
+.pt-cell.nonmetal     { background: rgba(255,255,100,0.09); }
+.pt-cell.noble        { background: rgba(180,100,255,0.13); }
+.pt-cell.lanthanide   { background: rgba(255,160,80,0.09); }
+.pt-cell.actinide     { background: rgba(255,80,120,0.09); }
+.pt-cell.halogen      { background: rgba(0,255,200,0.09); }
+
+[data-theme="light"] .pt-cell.alkali       { background: rgba(220,80,20,0.1); }
+[data-theme="light"] .pt-cell.alkaline     { background: rgba(180,130,0,0.1); }
+[data-theme="light"] .pt-cell.transition   { background: rgba(0,100,180,0.08); }
+[data-theme="light"] .pt-cell.post-transition { background: rgba(30,140,30,0.08); }
+[data-theme="light"] .pt-cell.metalloid    { background: rgba(120,50,180,0.09); }
+[data-theme="light"] .pt-cell.nonmetal     { background: rgba(140,120,0,0.09); }
+[data-theme="light"] .pt-cell.noble        { background: rgba(120,50,180,0.08); }
+[data-theme="light"] .pt-cell.lanthanide   { background: rgba(180,90,20,0.08); }
+[data-theme="light"] .pt-cell.actinide     { background: rgba(180,20,60,0.07); }
+[data-theme="light"] .pt-cell.halogen      { background: rgba(0,130,100,0.08); }
+
+/* ====== BLANK GAME ====== */
+.pt-cell.blank {
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+  border: 2px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  cursor: pointer;
+}
+.pt-cell.blank:hover {
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  border-color: var(--accent);
+  transform: scale(1.08); z-index: 20;
+}
+.pt-cell.blank .pt-num,
+.pt-cell.blank .pt-sym,
+.pt-cell.blank .pt-kr { opacity: 0; pointer-events: none; }
+
+.pt-cell.solved {
+  border: 2px solid var(--correct) !important;
+  background: color-mix(in srgb, var(--correct) 12%, var(--surface)) !important;
+  cursor: default !important;
+}
+.pt-cell.solved .pt-sym { color: var(--correct); }
+
+.pt-cell.wrong-flash {
+  background: color-mix(in srgb, var(--wrong) 28%, var(--surface)) !important;
+  border-color: var(--wrong) !important;
+  animation: flash-anim 0.45s ease;
+}
+.pt-cell.correct-flash {
+  background: color-mix(in srgb, var(--correct) 35%, var(--surface)) !important;
+  border-color: var(--correct) !important;
+  animation: flash-anim 0.45s ease;
+}
+@keyframes flash-anim { 0%,100%{opacity:1} 50%{opacity:0.55} }
+
+/* Skipped blank — reveal after skip */
+.pt-cell.skipped {
+  border: 2px solid color-mix(in srgb, var(--wrong) 60%, transparent) !important;
+  background: color-mix(in srgb, var(--wrong) 8%, var(--surface)) !important;
+  cursor: default !important;
+}
+.pt-cell.skipped .pt-num,
+.pt-cell.skipped .pt-sym,
+.pt-cell.skipped .pt-kr { opacity: 1; }
+.pt-cell.skipped .pt-sym { color: var(--wrong); }
+
+/* Hint box */
+.hint-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.4rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+.hint-kr { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--accent); }
+.hint-sub { font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--text-dim); margin-top: 0.2rem; }
+.hint-progress { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-dim); margin-left: auto; }
+.hint-label { font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.2rem; }
+
+/* Blank result chips */
+.blank-result-row { display: flex; flex-wrap: wrap; gap: 0.45rem; justify-content: center; margin: 0.8rem 0; }
+.blank-result-chip { font-family: 'Space Mono', monospace; font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 5px; }
+.blank-result-chip.ok  { background: color-mix(in srgb, var(--correct) 14%, transparent); color: var(--correct); border: 1px solid var(--correct); }
+.blank-result-chip.bad { background: color-mix(in srgb, var(--wrong) 14%, transparent); color: var(--wrong); border: 1px solid var(--wrong); }
+
+/* ====== PERIODIC TABLE VIEW ====== */
+#pt-view.active { display: block; }
+.pt-view-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
+.filter-btn {
+  font-size: 0.7rem; padding: 0.28rem 0.65rem;
+  border: 1px solid var(--border); border-radius: 4px;
+  background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.18s;
+}
+.filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.filter-btn.active-filter { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+.pt-full-cell {
+  aspect-ratio: 1; min-width: 30px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.14s;
+  user-select: none;
+}
+.pt-full-cell.empty { background: transparent; border-color: transparent; cursor: default; }
+.pt-full-cell:not(.empty):hover { transform: scale(1.1); z-index: 20; border-color: var(--accent); }
+.pt-full-cell.dimmed { opacity: 0.18; }
+
+/* Element detail modal */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 500; display: none;
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal-card {
+  background: var(--surface); border: 1px solid var(--accent);
+  border-radius: 16px; padding: 2rem 2.2rem;
+  max-width: 320px; width: 90%;
+  position: relative;
+  animation: modal-in 0.22s ease;
+}
+@keyframes modal-in { from{transform:scale(0.88);opacity:0} to{transform:scale(1);opacity:1} }
+.modal-close { position: absolute; top: 0.8rem; right: 0.9rem; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-dim); line-height: 1; }
+.modal-close:hover { color: var(--text); }
+.modal-sym { font-family: 'Space Mono', monospace; font-size: 3.5rem; font-weight: 700; color: var(--accent); line-height: 1; }
+.modal-num { font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--text-dim); }
+.modal-kr { font-size: 1.4rem; font-weight: 700; margin: 0.5rem 0 0.2rem; }
+.modal-group { font-size: 0.78rem; color: var(--text-dim); }
+.modal-sep { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+
+/* ====== MATCH GAME ====== */
+#match-game.active { display: block; }
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 640px; margin: 0 auto; }
+.match-col { display: flex; flex-direction: column; gap: 0.42rem; }
+.match-col-title { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--text-dim); text-align: center; margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.match-item { background: var(--surface); border: 2px solid var(--border); border-radius: 8px; padding: 0.7rem 0.8rem; cursor: pointer; transition: all 0.17s; text-align: center; font-family: 'Space Mono', monospace; font-size: 0.92rem; user-select: none; }
+.match-item:hover { border-color: var(--accent); background: var(--surface2); }
+.match-item.selected { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent); }
+.match-item.matched { border-color: var(--correct); background: color-mix(in srgb, var(--correct) 10%, transparent); color: var(--correct); cursor: default; }
+.match-item.wrong-shake { border-color: var(--wrong); animation: shake 0.4s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+@keyframes pop-in { 0%{transform:scale(0.85);opacity:0} 100%{transform:scale(1);opacity:1} }
+
+/* ====== LEGEND ====== */
+.legend { display: flex; gap: 0.35rem; flex-wrap: wrap; font-size: 0.67rem; color: var(--text-dim); margin-top: 0.7rem; }
+.legend span { padding: 2px 6px; border-radius: 3px; }
+
+/* ====== TOOLTIP ====== */
+.pt-tooltip { position: fixed; background: var(--surface2); border: 1px solid var(--accent); border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.74rem; pointer-events: none; z-index: 1000; opacity: 0; transition: opacity 0.15s; max-width: 140px; }
+.pt-tooltip.visible { opacity: 1; }
+.tt-sym { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+.tt-name { color: var(--text); font-weight: 500; }
+.tt-num { color: var(--text-dim); font-size: 0.66rem; }
+
+/* ====== TOAST ====== */
+.toast { position: fixed; bottom: 1.8rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 1.3rem; font-size: 0.86rem; opacity: 0; z-index: 9999; transition: all 0.28s; pointer-events: none; white-space: nowrap; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.success { border-color: var(--correct); color: var(--correct); }
+.toast.error { border-color: var(--wrong); color: var(--wrong); }
+.toast.info { border-color: var(--accent2); color: var(--accent2); }
+
+@media (max-width:600px) {
+  header { padding: 0.7rem 0.9rem; }
+  .nav-tab { font-size: 0.58rem; padding: 0.28rem 0.5rem; }
+  .page-pad { padding: 1.2rem 1rem; }
+  .periodic-grid,.pt-full-grid { gap: 2px; }
+  .pt-cell,.pt-full-cell { min-width: 22px; }
+  .pt-sym { font-size: 0.58rem; }
+  .pt-num,.pt-kr { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚗ 원소기호<span>마스터</span></div>
+  <div class="header-right">
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showScreen('home')">홈</button>
+      <button class="nav-tab" onclick="showScreen('quiz')">✏️ 퀴즈</button>
+      <button class="nav-tab" onclick="showScreen('blank-game')">🧩 빈칸</button>
+      <button class="nav-tab" onclick="showScreen('match-game')">🔗 매칭</button>
+      <button class="nav-tab" onclick="showScreen('pt-view')">📋 주기율표</button>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+      <span class="icon">🌙</span><span id="theme-label">다크</span>
+    </button>
+  </div>
+</header>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+  <div class="home-title">원소기호를<br><span class="hl">마스터</span>하자 <span class="hl2">⚗</span></div>
+  <p class="home-subtitle">118개 원소기호를 게임으로 정복하세요.<br>퀴즈, 빈칸 채우기, 연결 매칭, 주기율표 보기까지!</p>
+  <div class="game-cards">
+    <div class="game-card" onclick="showScreen('quiz')">
+      <div class="card-icon">✏️</div>
+      <div class="card-title">원소기호 퀴즈</div>
+      <div class="card-desc">원소 이름을 보고 기호를 직접 입력. 20문제 자동채점!</div>
+    </div>
+    <div class="game-card" onclick="showScreen('blank-game')">
+      <div class="card-icon">🧩</div>
+      <div class="card-title">빈칸 채우기</div>
+      <div class="card-desc">주기율표의 빈칸 위치를 힌트만 보고 찾으세요. 오답은 바로 다음 문제로!</div>
+    </div>
+    <div class="game-card" onclick="showScreen('match-game')">
+      <div class="card-icon">🔗</div>
+      <div class="card-title">연결 매칭</div>
+      <div class="card-desc">원소 이름과 기호를 연결하세요. 레벨 클리어 도전!</div>
+    </div>
+    <div class="game-card" onclick="showScreen('pt-view')">
+      <div class="card-icon">📋</div>
+      <div class="card-title">주기율표 보기</div>
+      <div class="card-desc">전체 주기율표를 확인하고 원소를 클릭해 상세 정보를 보세요!</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen page-pad">
+  <div class="page-header">
+    <div class="page-title">✏️ 원소기호 퀴즈</div>
+    <div class="info-badge">1~20번 <span>15</span>개 + 나머지 <span>5</span>개</div>
+  </div>
+  <div id="quiz-grid" class="quiz-grid"></div>
+  <div class="action-row">
+    <button class="btn btn-primary" onclick="gradeQuiz()">✔ 채점하기</button>
+    <button class="btn btn-secondary" onclick="initQuiz()">🔄 다시하기</button>
+    <button class="btn btn-danger" onclick="showScreen('home')">← 홈</button>
+  </div>
+  <div id="result-panel" class="result-panel">
+    <div id="result-score" class="result-score">0/20</div>
+    <div class="result-label">맞은 개수</div>
+    <div id="result-grade" class="result-grade">-</div>
+    <div id="result-msg" style="font-size:0.86rem;color:var(--text-dim);margin-bottom:1rem;"></div>
+    <button class="btn btn-primary" onclick="initQuiz()">🔄 새 문제로</button>
+  </div>
+</div>
+
+<!-- BLANK GAME -->
+<div id="blank-game" class="screen page-pad">
+  <div class="page-header">
+    <div class="page-title">🧩 빈칸 채우기</div>
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-val" id="bg-correct">0</div><div class="stat-lbl">정답</div></div>
+      <div class="stat-box"><div class="stat-val" id="bg-wrong-cnt">0</div><div class="stat-lbl">오답</div></div>
+      <div class="stat-box"><div class="stat-val" id="bg-remain">20</div><div class="stat-lbl">남음</div></div>
+    </div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="bg-progress" style="width:100%"></div></div>
+  <div class="hint-box" id="bg-hint-box">
+    <div>
+      <div class="hint-label">이 원소의 위치를 주기율표에서 찾으세요</div>
+      <div class="hint-kr" id="bg-hint-kr">?</div>
+      <div class="hint-sub" id="bg-hint-sub"></div>
+    </div>
+    <div class="hint-progress" id="bg-hint-progress">1 / 20</div>
+  </div>
+  <div id="blank-periodic-table" class="periodic-grid"></div>
+  <div class="legend">
+    <span style="background:rgba(255,107,53,0.18)">알칼리</span>
+    <span style="background:rgba(255,200,53,0.18)">알칼리토</span>
+    <span style="background:rgba(0,212,255,0.13)">전이금속</span>
+    <span style="background:rgba(127,255,106,0.13)">후전이금속</span>
+    <span style="background:rgba(200,130,255,0.18)">준금속</span>
+    <span style="background:rgba(255,255,100,0.13)">비금속</span>
+    <span style="background:rgba(0,255,200,0.13)">할로젠</span>
+    <span style="background:rgba(180,100,255,0.18)">비활성기체</span>
+    <span style="border:2px dashed rgba(0,180,220,0.6);padding:1px 5px;">점선 = 빈칸</span>
+  </div>
+  <div id="bg-result" class="result-panel">
+    <div id="bg-final-score" class="result-score">0/20</div>
+    <div class="result-label">맞은 개수</div>
+    <div id="bg-final-grade" class="result-grade"></div>
+    <div id="bg-final-msg" style="font-size:0.86rem;color:var(--text-dim);margin-bottom:0.8rem;"></div>
+    <div id="bg-result-chips" class="blank-result-row"></div>
+    <div class="action-row" style="margin-top:0.5rem;">
+      <button class="btn btn-primary" onclick="initBlankGame()">🔄 다시하기</button>
+      <button class="btn btn-danger" onclick="showScreen('home')">← 홈</button>
+    </div>
+  </div>
+</div>
+
+<!-- MATCH GAME -->
+<div id="match-game" class="screen page-pad">
+  <div class="page-header">
+    <div class="page-title">🔗 연결 매칭</div>
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-val" id="mg-matched">0</div><div class="stat-lbl">매칭</div></div>
+      <div class="stat-box"><div class="stat-val" id="mg-tries">0</div><div class="stat-lbl">시도</div></div>
+      <div class="stat-box"><div class="stat-val" id="mg-level">1</div><div class="stat-lbl">레벨</div></div>
+    </div>
+  </div>
+  <p style="font-size:0.82rem;color:var(--text-dim);margin-bottom:1.3rem;text-align:center;">왼쪽 이름 → 오른쪽 기호 순서로 클릭하여 연결하세요.</p>
+  <div id="match-grid" class="match-grid">
+    <div class="match-col"><div class="match-col-title">이름</div><div id="match-names"></div></div>
+    <div class="match-col"><div class="match-col-title">기호</div><div id="match-symbols"></div></div>
+  </div>
+  <div id="mg-result" class="result-panel">
+    <div class="result-score" id="mg-final-score">-</div>
+    <div class="result-label">레벨 클리어!</div>
+    <div id="mg-final-grade" class="result-grade"></div>
+    <div id="mg-final-msg" style="font-size:0.86rem;color:var(--text-dim);margin-bottom:1rem;"></div>
+    <div class="action-row">
+      <button class="btn btn-primary" onclick="nextMatchLevel()">다음 레벨 →</button>
+      <button class="btn btn-secondary" onclick="initMatchGame()">처음부터</button>
+    </div>
+  </div>
+  <div style="margin-top:1rem;text-align:center;">
+    <button class="btn btn-danger" onclick="showScreen('home')">← 홈</button>
+  </div>
+</div>
+
+<!-- PERIODIC TABLE VIEW -->
+<div id="pt-view" class="screen page-pad">
+  <div class="page-header">
+    <div class="page-title">📋 주기율표</div>
+    <div style="font-size:0.78rem;color:var(--text-dim);">원소를 클릭하면 상세 정보를 볼 수 있어요</div>
+  </div>
+  <div class="pt-view-controls" id="pt-filters">
+    <button class="filter-btn active-filter" data-filter="all" onclick="setPTFilter('all',this)">전체</button>
+    <button class="filter-btn" data-filter="alkali" onclick="setPTFilter('alkali',this)" style="background:rgba(255,107,53,0.15)">알칼리</button>
+    <button class="filter-btn" data-filter="alkaline" onclick="setPTFilter('alkaline',this)" style="background:rgba(255,200,53,0.15)">알칼리토</button>
+    <button class="filter-btn" data-filter="transition" onclick="setPTFilter('transition',this)" style="background:rgba(0,212,255,0.12)">전이금속</button>
+    <button class="filter-btn" data-filter="post-transition" onclick="setPTFilter('post-transition',this)" style="background:rgba(127,255,106,0.12)">후전이금속</button>
+    <button class="filter-btn" data-filter="metalloid" onclick="setPTFilter('metalloid',this)" style="background:rgba(200,130,255,0.15)">준금속</button>
+    <button class="filter-btn" data-filter="nonmetal" onclick="setPTFilter('nonmetal',this)" style="background:rgba(255,255,100,0.12)">비금속</button>
+    <button class="filter-btn" data-filter="halogen" onclick="setPTFilter('halogen',this)" style="background:rgba(0,255,200,0.12)">할로젠</button>
+    <button class="filter-btn" data-filter="noble" onclick="setPTFilter('noble',this)" style="background:rgba(180,100,255,0.15)">비활성기체</button>
+    <button class="filter-btn" data-filter="lanthanide" onclick="setPTFilter('lanthanide',this)" style="background:rgba(255,160,80,0.12)">란타넘족</button>
+    <button class="filter-btn" data-filter="actinide" onclick="setPTFilter('actinide',this)" style="background:rgba(255,80,120,0.1)">악티늄족</button>
+  </div>
+  <div id="pt-full-grid" class="periodic-grid" style="gap:3px;"></div>
+  <div class="legend" style="margin-top:1rem;">
+    <span style="background:rgba(255,107,53,0.18)">알칼리</span>
+    <span style="background:rgba(255,200,53,0.18)">알칼리토</span>
+    <span style="background:rgba(0,212,255,0.13)">전이금속</span>
+    <span style="background:rgba(127,255,106,0.13)">후전이금속</span>
+    <span style="background:rgba(200,130,255,0.18)">준금속</span>
+    <span style="background:rgba(255,255,100,0.13)">비금속</span>
+    <span style="background:rgba(0,255,200,0.13)">할로젠</span>
+    <span style="background:rgba(180,100,255,0.18)">비활성기체</span>
+    <span style="background:rgba(255,160,80,0.13)">란타넘족</span>
+    <span style="background:rgba(255,80,120,0.1)">악티늄족</span>
+  </div>
+</div>
+
+<!-- ELEMENT DETAIL MODAL -->
+<div class="modal-overlay" id="element-modal" onclick="closeModal(event)">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-num" id="m-num">원자번호 1</div>
+    <div class="modal-sym" id="m-sym">H</div>
+    <div class="modal-kr" id="m-kr">수소</div>
+    <div class="modal-group" id="m-group">비금속</div>
+    <hr class="modal-sep">
+    <div style="font-size:0.8rem;color:var(--text-dim);line-height:1.9;">
+      <div>기호: <span id="m-sym2" style="font-family:'Space Mono',monospace;color:var(--text);font-weight:700;"></span></div>
+      <div>분류: <span id="m-group2" style="color:var(--text);"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLTIP -->
+<div id="pt-tooltip" class="pt-tooltip">
+  <div class="tt-sym" id="tt-sym"></div>
+  <div class="tt-name" id="tt-name"></div>
+  <div class="tt-num" id="tt-num"></div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+// ========== DATA ==========
+const ELEMENTS = [
+  {n:1,sym:'H',kr:'수소',group:'nonmetal',col:1,row:1},
+  {n:2,sym:'He',kr:'헬륨',group:'noble',col:18,row:1},
+  {n:3,sym:'Li',kr:'리튬',group:'alkali',col:1,row:2},
+  {n:4,sym:'Be',kr:'베릴륨',group:'alkaline',col:2,row:2},
+  {n:5,sym:'B',kr:'붕소',group:'metalloid',col:13,row:2},
+  {n:6,sym:'C',kr:'탄소',group:'nonmetal',col:14,row:2},
+  {n:7,sym:'N',kr:'질소',group:'nonmetal',col:15,row:2},
+  {n:8,sym:'O',kr:'산소',group:'nonmetal',col:16,row:2},
+  {n:9,sym:'F',kr:'플루오린',group:'halogen',col:17,row:2},
+  {n:10,sym:'Ne',kr:'네온',group:'noble',col:18,row:2},
+  {n:11,sym:'Na',kr:'나트륨',group:'alkali',col:1,row:3},
+  {n:12,sym:'Mg',kr:'마그네슘',group:'alkaline',col:2,row:3},
+  {n:13,sym:'Al',kr:'알루미늄',group:'post-transition',col:13,row:3},
+  {n:14,sym:'Si',kr:'규소',group:'metalloid',col:14,row:3},
+  {n:15,sym:'P',kr:'인',group:'nonmetal',col:15,row:3},
+  {n:16,sym:'S',kr:'황',group:'nonmetal',col:16,row:3},
+  {n:17,sym:'Cl',kr:'염소',group:'halogen',col:17,row:3},
+  {n:18,sym:'Ar',kr:'아르곤',group:'noble',col:18,row:3},
+  {n:19,sym:'K',kr:'칼륨',group:'alkali',col:1,row:4},
+  {n:20,sym:'Ca',kr:'칼슘',group:'alkaline',col:2,row:4},
+  {n:21,sym:'Sc',kr:'스칸듐',group:'transition',col:3,row:4},
+  {n:22,sym:'Ti',kr:'타이타늄',group:'transition',col:4,row:4},
+  {n:23,sym:'V',kr:'바나듐',group:'transition',col:5,row:4},
+  {n:24,sym:'Cr',kr:'크로뮴',group:'transition',col:6,row:4},
+  {n:25,sym:'Mn',kr:'망가니즈',group:'transition',col:7,row:4},
+  {n:26,sym:'Fe',kr:'철',group:'transition',col:8,row:4},
+  {n:27,sym:'Co',kr:'코발트',group:'transition',col:9,row:4},
+  {n:28,sym:'Ni',kr:'니켈',group:'transition',col:10,row:4},
+  {n:29,sym:'Cu',kr:'구리',group:'transition',col:11,row:4},
+  {n:30,sym:'Zn',kr:'아연',group:'transition',col:12,row:4},
+  {n:31,sym:'Ga',kr:'갈륨',group:'post-transition',col:13,row:4},
+  {n:32,sym:'Ge',kr:'저마늄',group:'metalloid',col:14,row:4},
+  {n:33,sym:'As',kr:'비소',group:'metalloid',col:15,row:4},
+  {n:34,sym:'Se',kr:'셀레늄',group:'nonmetal',col:16,row:4},
+  {n:35,sym:'Br',kr:'브로민',group:'halogen',col:17,row:4},
+  {n:36,sym:'Kr',kr:'크립톤',group:'noble',col:18,row:4},
+  {n:37,sym:'Rb',kr:'루비듐',group:'alkali',col:1,row:5},
+  {n:38,sym:'Sr',kr:'스트론튬',group:'alkaline',col:2,row:5},
+  {n:39,sym:'Y',kr:'이트륨',group:'transition',col:3,row:5},
+  {n:40,sym:'Zr',kr:'지르코늄',group:'transition',col:4,row:5},
+  {n:41,sym:'Nb',kr:'나이오븀',group:'transition',col:5,row:5},
+  {n:42,sym:'Mo',kr:'몰리브데넘',group:'transition',col:6,row:5},
+  {n:43,sym:'Tc',kr:'테크네튬',group:'transition',col:7,row:5},
+  {n:44,sym:'Ru',kr:'루테늄',group:'transition',col:8,row:5},
+  {n:45,sym:'Rh',kr:'로듐',group:'transition',col:9,row:5},
+  {n:46,sym:'Pd',kr:'팔라듐',group:'transition',col:10,row:5},
+  {n:47,sym:'Ag',kr:'은',group:'transition',col:11,row:5},
+  {n:48,sym:'Cd',kr:'카드뮴',group:'transition',col:12,row:5},
+  {n:49,sym:'In',kr:'인듐',group:'post-transition',col:13,row:5},
+  {n:50,sym:'Sn',kr:'주석',group:'post-transition',col:14,row:5},
+  {n:51,sym:'Sb',kr:'안티모니',group:'metalloid',col:15,row:5},
+  {n:52,sym:'Te',kr:'텔루륨',group:'metalloid',col:16,row:5},
+  {n:53,sym:'I',kr:'아이오딘',group:'halogen',col:17,row:5},
+  {n:54,sym:'Xe',kr:'제논',group:'noble',col:18,row:5},
+  {n:55,sym:'Cs',kr:'세슘',group:'alkali',col:1,row:6},
+  {n:56,sym:'Ba',kr:'바륨',group:'alkaline',col:2,row:6},
+  {n:57,sym:'La',kr:'란타넘',group:'lanthanide',col:4,row:9},
+  {n:58,sym:'Ce',kr:'세륨',group:'lanthanide',col:5,row:9},
+  {n:59,sym:'Pr',kr:'프라세오디뮴',group:'lanthanide',col:6,row:9},
+  {n:60,sym:'Nd',kr:'네오디뮴',group:'lanthanide',col:7,row:9},
+  {n:61,sym:'Pm',kr:'프로메튬',group:'lanthanide',col:8,row:9},
+  {n:62,sym:'Sm',kr:'사마륨',group:'lanthanide',col:9,row:9},
+  {n:63,sym:'Eu',kr:'유로퓸',group:'lanthanide',col:10,row:9},
+  {n:64,sym:'Gd',kr:'가돌리늄',group:'lanthanide',col:11,row:9},
+  {n:65,sym:'Tb',kr:'터븀',group:'lanthanide',col:12,row:9},
+  {n:66,sym:'Dy',kr:'디스프로슘',group:'lanthanide',col:13,row:9},
+  {n:67,sym:'Ho',kr:'홀뮴',group:'lanthanide',col:14,row:9},
+  {n:68,sym:'Er',kr:'어븀',group:'lanthanide',col:15,row:9},
+  {n:69,sym:'Tm',kr:'툴륨',group:'lanthanide',col:16,row:9},
+  {n:70,sym:'Yb',kr:'이터븀',group:'lanthanide',col:17,row:9},
+  {n:71,sym:'Lu',kr:'루테튬',group:'lanthanide',col:18,row:9},
+  {n:72,sym:'Hf',kr:'하프늄',group:'transition',col:4,row:6},
+  {n:73,sym:'Ta',kr:'탄탈럼',group:'transition',col:5,row:6},
+  {n:74,sym:'W',kr:'텅스텐',group:'transition',col:6,row:6},
+  {n:75,sym:'Re',kr:'레늄',group:'transition',col:7,row:6},
+  {n:76,sym:'Os',kr:'오스뮴',group:'transition',col:8,row:6},
+  {n:77,sym:'Ir',kr:'이리듐',group:'transition',col:9,row:6},
+  {n:78,sym:'Pt',kr:'백금',group:'transition',col:10,row:6},
+  {n:79,sym:'Au',kr:'금',group:'transition',col:11,row:6},
+  {n:80,sym:'Hg',kr:'수은',group:'transition',col:12,row:6},
+  {n:81,sym:'Tl',kr:'탈륨',group:'post-transition',col:13,row:6},
+  {n:82,sym:'Pb',kr:'납',group:'post-transition',col:14,row:6},
+  {n:83,sym:'Bi',kr:'비스무트',group:'post-transition',col:15,row:6},
+  {n:84,sym:'Po',kr:'폴로늄',group:'post-transition',col:16,row:6},
+  {n:85,sym:'At',kr:'아스타틴',group:'halogen',col:17,row:6},
+  {n:86,sym:'Rn',kr:'라돈',group:'noble',col:18,row:6},
+  {n:87,sym:'Fr',kr:'프랑슘',group:'alkali',col:1,row:7},
+  {n:88,sym:'Ra',kr:'라듐',group:'alkaline',col:2,row:7},
+  {n:89,sym:'Ac',kr:'악티늄',group:'actinide',col:4,row:10},
+  {n:90,sym:'Th',kr:'토륨',group:'actinide',col:5,row:10},
+  {n:91,sym:'Pa',kr:'프로트악티늄',group:'actinide',col:6,row:10},
+  {n:92,sym:'U',kr:'우라늄',group:'actinide',col:7,row:10},
+  {n:93,sym:'Np',kr:'넵투늄',group:'actinide',col:8,row:10},
+  {n:94,sym:'Pu',kr:'플루토늄',group:'actinide',col:9,row:10},
+  {n:95,sym:'Am',kr:'아메리슘',group:'actinide',col:10,row:10},
+  {n:96,sym:'Cm',kr:'퀴륨',group:'actinide',col:11,row:10},
+  {n:97,sym:'Bk',kr:'버클륨',group:'actinide',col:12,row:10},
+  {n:98,sym:'Cf',kr:'캘리포늄',group:'actinide',col:13,row:10},
+  {n:99,sym:'Es',kr:'아인슈타이늄',group:'actinide',col:14,row:10},
+  {n:100,sym:'Fm',kr:'페르뮴',group:'actinide',col:15,row:10},
+  {n:101,sym:'Md',kr:'멘델레븀',group:'actinide',col:16,row:10},
+  {n:102,sym:'No',kr:'노벨륨',group:'actinide',col:17,row:10},
+  {n:103,sym:'Lr',kr:'로렌슘',group:'actinide',col:18,row:10},
+  {n:104,sym:'Rf',kr:'러더포듐',group:'transition',col:4,row:7},
+  {n:105,sym:'Db',kr:'더브늄',group:'transition',col:5,row:7},
+  {n:106,sym:'Sg',kr:'시보귬',group:'transition',col:6,row:7},
+  {n:107,sym:'Bh',kr:'보륨',group:'transition',col:7,row:7},
+  {n:108,sym:'Hs',kr:'하슘',group:'transition',col:8,row:7},
+  {n:109,sym:'Mt',kr:'마이트너륨',group:'transition',col:9,row:7},
+  {n:110,sym:'Ds',kr:'다름슈타튬',group:'transition',col:10,row:7},
+  {n:111,sym:'Rg',kr:'뢴트게늄',group:'transition',col:11,row:7},
+  {n:112,sym:'Cn',kr:'코페르니슘',group:'transition',col:12,row:7},
+  {n:113,sym:'Nh',kr:'니호늄',group:'post-transition',col:13,row:7},
+  {n:114,sym:'Fl',kr:'플레로븀',group:'post-transition',col:14,row:7},
+  {n:115,sym:'Mc',kr:'모스코븀',group:'post-transition',col:15,row:7},
+  {n:116,sym:'Lv',kr:'리버모륨',group:'post-transition',col:16,row:7},
+  {n:117,sym:'Ts',kr:'테네신',group:'halogen',col:17,row:7},
+  {n:118,sym:'Og',kr:'오가네손',group:'noble',col:18,row:7},
+];
+const elemByN = {};
+ELEMENTS.forEach(e => elemByN[e.n] = e);
+const ptLayout = {};
+ELEMENTS.forEach(e => { if(e.row && e.col) ptLayout[`${e.row}_${e.col}`] = e; });
+
+const GROUP_KR = {
+  alkali:'알칼리 금속', alkaline:'알칼리토 금속', transition:'전이금속',
+  'post-transition':'후전이금속', metalloid:'준금속', nonmetal:'비금속',
+  halogen:'할로젠', noble:'비활성기체', lanthanide:'란타넘족', actinide:'악티늄족'
+};
+
+function shuffle(arr) {
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function showToast(msg, type='success', dur=1500) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className=`toast show ${type}`;
+  clearTimeout(t._t); t._t=setTimeout(()=>t.className='toast', dur);
+}
+
+// ========== THEME ==========
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-btn').innerHTML = isDark
+    ? '<span class="icon">☀️</span><span id="theme-label">라이트</span>'
+    : '<span class="icon">🌙</span><span id="theme-label">다크</span>';
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
+// Load saved theme
+(function() {
+  const saved = localStorage.getItem('theme');
+  if(saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    if(saved === 'light') {
+      document.getElementById('theme-btn').innerHTML = '<span class="icon">☀️</span><span id="theme-label">라이트</span>';
+    }
+  }
+})();
+
+// ========== NAV ==========
+let quizInit=false, blankInit=false, mgInit=false, ptViewInit=false;
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const order={home:0,quiz:1,'blank-game':2,'match-game':3,'pt-view':4};
+  document.querySelectorAll('.nav-tab')[order[id]]?.classList.add('active');
+  if(id==='quiz'&&!quizInit) initQuiz();
+  if(id==='blank-game'&&!blankInit){initBlankGame();blankInit=true;}
+  if(id==='match-game'&&!mgInit){initMatchGame();mgInit=true;}
+  if(id==='pt-view'&&!ptViewInit){buildPTView();ptViewInit=true;}
+}
+
+// ========== QUIZ ==========
+let quizItems=[];
+function initQuiz() {
+  quizInit=true;
+  document.getElementById('result-panel').classList.remove('show');
+  const light=ELEMENTS.filter(e=>e.n<=20);
+  const heavy=ELEMENTS.filter(e=>e.n>20);
+  quizItems=shuffle([...shuffle(light).slice(0,15),...shuffle(heavy).slice(0,5)]);
+  const grid=document.getElementById('quiz-grid');
+  grid.innerHTML='';
+  quizItems.forEach((el,i)=>{
+    const d=document.createElement('div');
+    d.className='quiz-item';d.id=`qi-${i}`;
+    d.innerHTML=`<div class="item-number">#${el.n}</div>
+      <div class="item-name">${el.kr}</div>
+      <input class="quiz-input" type="text" placeholder="기호 입력" id="qi-input-${i}"
+        autocomplete="off" autocorrect="off" spellcheck="false"
+        onkeydown="if(event.key==='Enter')gradeQuiz()"
+        oninput="this.value=this.value.replace(/[^a-zA-Z]/g,'')">
+      <div class="answer-badge" id="qi-badge-${i}"></div>`;
+    grid.appendChild(d);
+  });
+  setTimeout(()=>document.getElementById('qi-input-0')?.focus(),100);
+}
+function gradeQuiz() {
+  document.querySelectorAll('.quiz-input').forEach(i=>i.disabled=true);
+  let correct=0;
+  quizItems.forEach((el,i)=>{
+    const inp=document.getElementById(`qi-input-${i}`);
+    const badge=document.getElementById(`qi-badge-${i}`);
+    const qi=document.getElementById(`qi-${i}`);
+    const ok=(inp.value||'').trim().toLowerCase()===el.sym.toLowerCase();
+    if(ok){correct++;inp.classList.add('correct');qi.classList.add('correct');badge.textContent='✓ 정답!';badge.className='answer-badge show correct-ans';}
+    else{inp.classList.add('wrong');qi.classList.add('wrong');badge.textContent=`✗ 정답: ${el.sym}`;badge.className='answer-badge show wrong-ans';}
+  });
+  const panel=document.getElementById('result-panel');
+  panel.classList.add('show');
+  document.getElementById('result-score').textContent=`${correct}/20`;
+  let grade,color,msg;
+  if(correct>=19){grade='S';color='#d4a000';msg='완벽합니다! 원소 마스터! 🏆';}
+  else if(correct>=17){grade='A';color='var(--correct)';msg='훌륭해요! 거의 다 맞췄군요! 🎉';}
+  else if(correct>=14){grade='B';color='var(--accent)';msg='잘 했어요! 조금만 더 연습!';}
+  else if(correct>=10){grade='C';color='var(--accent2)';msg='더 연습이 필요해요. 화이팅! 💪';}
+  else{grade='D';color='var(--wrong)';msg='원소기호를 더 공부해봐요! 📚';}
+  const gr=document.getElementById('result-grade');
+  gr.textContent=`Grade: ${grade}`;gr.style.cssText=`background:${color}22;color:${color};border:1px solid ${color};`;
+  document.getElementById('result-msg').textContent=msg;
+  panel.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ========== BLANK GAME ==========
+let bgQuestions=[], bgCurrentIdx=0, bgCorrectCount=0, bgWrongCount=0;
+let bgAnswered=[], bgDone=false;
+const bgPool=ELEMENTS.filter(e=>e.row&&e.col&&e.row!==8);
+
+function initBlankGame() {
+  bgDone=false; bgCurrentIdx=0; bgCorrectCount=0; bgWrongCount=0; bgAnswered=[];
+  document.getElementById('bg-correct').textContent=0;
+  document.getElementById('bg-wrong-cnt').textContent=0;
+  document.getElementById('bg-remain').textContent=20;
+  document.getElementById('bg-progress').style.width='100%';
+  document.getElementById('bg-result').classList.remove('show');
+  // 1~20번 중 15개 + 나머지 중 5개
+  const light=bgPool.filter(e=>e.n<=20);
+  const heavy=bgPool.filter(e=>e.n>20);
+  bgQuestions=shuffle([...shuffle(light).slice(0,15),...shuffle(heavy).slice(0,5)]);
+  buildBlankTable();
+  showBGQuestion();
+}
+
+function buildBlankTable() {
+  const grid=document.getElementById('blank-periodic-table');
+  grid.innerHTML='';
+  const blankNums=new Set(bgQuestions.map(e=>e.n));
+  for(let r=1;r<=10;r++) {
+    for(let c=1;c<=18;c++) {
+      const el=ptLayout[`${r}_${c}`];
+      const cell=document.createElement('div');
+      if(r===8){cell.className='pt-cell empty';grid.appendChild(cell);continue;}
+      if((r===6&&c===3)||(r===7&&c===3)){
+        cell.className='pt-cell';
+        cell.style.cssText='background:rgba(150,100,255,0.1);border-style:dashed;';
+        cell.innerHTML=`<div class="pt-sym" style="font-size:0.42rem;color:var(--text-dim)">${r===6?'La-Lu':'Ac-Lr'}</div>`;
+        grid.appendChild(cell);continue;
+      }
+      if(!el){cell.className='pt-cell empty';grid.appendChild(cell);continue;}
+      cell.dataset.n=el.n;
+      if(blankNums.has(el.n)) {
+        cell.className='pt-cell blank';
+        cell.innerHTML=`<div class="pt-num">${el.n}</div><div class="pt-sym">${el.sym}</div><div class="pt-kr">${el.kr}</div>`;
+        cell.addEventListener('click',()=>handleBlankClick(el,cell));
+      } else {
+        cell.className=`pt-cell ${el.group}`;
+        cell.innerHTML=`<div class="pt-num">${el.n}</div><div class="pt-sym">${el.sym}</div><div class="pt-kr">${el.kr}</div>`;
+        cell.addEventListener('mouseenter',ev=>showTooltip(ev,el));
+        cell.addEventListener('mouseleave',hideTooltip);
+      }
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function showBGQuestion() {
+  if(bgCurrentIdx>=bgQuestions.length){endBlankGame();return;}
+  const el=bgQuestions[bgCurrentIdx];
+  document.getElementById('bg-hint-kr').textContent=el.kr;
+  document.getElementById('bg-hint-sub').textContent=`원자번호 ${el.n} · 기호 힌트: ${el.sym[0]}${'_'.repeat(el.sym.length-1)}`;
+  document.getElementById('bg-hint-progress').textContent=`${bgCurrentIdx+1} / ${bgQuestions.length}`;
+  document.getElementById('bg-remain').textContent=bgQuestions.length-bgCurrentIdx;
+  document.getElementById('bg-progress').style.width=`${((bgQuestions.length-bgCurrentIdx)/bgQuestions.length)*100}%`;
+}
+
+function handleBlankClick(el, cell) {
+  if(bgDone) return;
+  const cur=bgQuestions[bgCurrentIdx];
+  if(el.n===cur.n) {
+    // 정답
+    bgCorrectCount++;
+    bgAnswered.push({el:cur,ok:true});
+    document.getElementById('bg-correct').textContent=bgCorrectCount;
+    cell.className=`pt-cell solved ${cur.group}`;
+    cell.innerHTML=`<div class="pt-num">${cur.n}</div><div class="pt-sym">${cur.sym}</div><div class="pt-kr">${cur.kr}</div>`;
+    cell.removeEventListener('click',()=>{});
+    showToast(`✓ ${cur.kr} = ${cur.sym}`, 'success', 1000);
+    bgCurrentIdx++;
+    setTimeout(showBGQuestion,300);
+  } else {
+    // 오답 — 틀린 칸 flicker 후 바로 넘어감
+    bgWrongCount++;
+    document.getElementById('bg-wrong-cnt').textContent=bgWrongCount;
+    bgAnswered.push({el:cur,ok:false});
+    // 틀린 칸 표시
+    cell.classList.add('wrong-flash');
+    setTimeout(()=>cell.classList.remove('wrong-flash'),500);
+    // 정답 칸 reveal (skipped)
+    const correctCell = document.querySelector(`#blank-periodic-table .pt-cell[data-n="${cur.n}"]`);
+    if(correctCell && correctCell.classList.contains('blank')) {
+      setTimeout(()=>{
+        correctCell.className=`pt-cell skipped`;
+        correctCell.innerHTML=`<div class="pt-num">${cur.n}</div><div class="pt-sym">${cur.sym}</div><div class="pt-kr">${cur.kr}</div>`;
+        correctCell.removeEventListener('click',()=>{});
+        // remove click
+        const newCell=correctCell.cloneNode(true);
+        correctCell.parentNode.replaceChild(newCell,correctCell);
+      }, 300);
+    }
+    showToast(`✗ 틀림 → ${cur.kr} = ${cur.sym}`, 'info', 1600);
+    bgCurrentIdx++;
+    setTimeout(showBGQuestion, 500);
+  }
+}
+
+function endBlankGame() {
+  bgDone=true;
+  const score=bgCorrectCount;
+  const total=bgQuestions.length;
+  document.getElementById('bg-final-score').textContent=`${score}/${total}`;
+  let grade,color,msg;
+  const pct=score/total;
+  if(pct>=1){grade='S';color='#d4a000';msg='완벽! 주기율표를 꿰뚫고 있군요! 🏆';}
+  else if(pct>=0.8){grade='A';color='var(--correct)';msg='아주 잘 했어요! 🎉';}
+  else if(pct>=0.6){grade='B';color='var(--accent)';msg='좋아요! 더 연습해봐요!';}
+  else if(pct>=0.4){grade='C';color='var(--accent2)';msg='조금 더 공부가 필요해요.';}
+  else{grade='D';color='var(--wrong)';msg='주기율표를 더 공부해봐요! 📚';}
+  const gr=document.getElementById('bg-final-grade');
+  gr.textContent=`Grade: ${grade}`;gr.style.cssText=`background:${color}22;color:${color};border:1px solid ${color};`;
+  document.getElementById('bg-final-msg').textContent=msg;
+  const chips=document.getElementById('bg-result-chips');
+  chips.innerHTML='';
+  bgAnswered.forEach(a=>{
+    const c=document.createElement('span');
+    c.className=`blank-result-chip ${a.ok?'ok':'bad'}`;
+    c.textContent=`${a.el.kr}=${a.el.sym}`;
+    chips.appendChild(c);
+  });
+  document.getElementById('bg-result').classList.add('show');
+  document.getElementById('bg-result').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ========== PERIODIC TABLE VIEW ==========
+let ptCurrentFilter='all';
+function buildPTView() {
+  const grid=document.getElementById('pt-full-grid');
+  grid.innerHTML='';
+  for(let r=1;r<=10;r++){
+    for(let c=1;c<=18;c++){
+      const el=ptLayout[`${r}_${c}`];
+      const cell=document.createElement('div');
+      if(r===8){cell.className='pt-cell empty';grid.appendChild(cell);continue;}
+      if((r===6&&c===3)||(r===7&&c===3)){
+        cell.className='pt-full-cell';
+        cell.style.cssText='background:rgba(150,100,255,0.1);border-style:dashed;cursor:default;';
+        cell.innerHTML=`<div class="pt-sym" style="font-size:0.4rem;color:var(--text-dim)">${r===6?'La-Lu':'Ac-Lr'}</div>`;
+        grid.appendChild(cell);continue;
+      }
+      if(!el){cell.className='pt-full-cell empty';grid.appendChild(cell);continue;}
+      cell.className=`pt-full-cell ${el.group}`;
+      cell.dataset.group=el.group;
+      cell.dataset.n=el.n;
+      cell.innerHTML=`<div class="pt-num">${el.n}</div><div class="pt-sym">${el.sym}</div><div class="pt-kr">${el.kr}</div>`;
+      cell.addEventListener('click',()=>openModal(el));
+      cell.addEventListener('mouseenter',ev=>showTooltip(ev,el));
+      cell.addEventListener('mouseleave',hideTooltip);
+      grid.appendChild(cell);
+    }
+  }
+}
+function setPTFilter(filter, btn) {
+  ptCurrentFilter=filter;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active-filter'));
+  btn.classList.add('active-filter');
+  document.querySelectorAll('#pt-full-grid .pt-full-cell:not(.empty)').forEach(cell=>{
+    if(filter==='all') cell.classList.remove('dimmed');
+    else cell.classList.toggle('dimmed', cell.dataset.group!==filter);
+  });
+}
+
+// ========== MODAL ==========
+function openModal(el) {
+  document.getElementById('m-num').textContent=`원자번호 ${el.n}`;
+  document.getElementById('m-sym').textContent=el.sym;
+  document.getElementById('m-kr').textContent=el.kr;
+  document.getElementById('m-group').textContent=GROUP_KR[el.group]||el.group;
+  document.getElementById('m-sym2').textContent=el.sym;
+  document.getElementById('m-group2').textContent=GROUP_KR[el.group]||el.group;
+  document.getElementById('element-modal').classList.add('open');
+}
+function closeModal(e) {
+  if(!e||e.target===document.getElementById('element-modal')||e.type==='click'&&!e.target.closest('.modal-card')||e.target.classList.contains('modal-close'))
+    document.getElementById('element-modal').classList.remove('open');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('element-modal').classList.remove('open');});
+
+// ========== TOOLTIP ==========
+const tooltip=document.getElementById('pt-tooltip');
+function showTooltip(e,el){
+  document.getElementById('tt-sym').textContent=el.sym;
+  document.getElementById('tt-name').textContent=el.kr;
+  document.getElementById('tt-num').textContent=`원자번호 ${el.n}`;
+  tooltip.classList.add('visible');
+}
+function hideTooltip(){tooltip.classList.remove('visible');}
+document.addEventListener('mousemove',e=>{
+  if(tooltip.classList.contains('visible')){
+    tooltip.style.left=(e.clientX+14)+'px';
+    tooltip.style.top=(e.clientY-8)+'px';
+  }
+});
+
+// ========== MATCH GAME ==========
+let mgLevel=1,mgMatched=0,mgTries=0;
+let mgPairs=[],mgSelectedName=null,mgSelectedSym=null,mgMatchedPairs=new Set();
+const MATCH_LEVELS=[
+  [1,2,3,4,5,6,7,8],[9,10,11,12,13,14,15,16],
+  [17,18,19,20,26,47,79,80],[29,28,27,25,24,23,22,21],
+  [11,12,16,8,6,7,1,17],[19,20,26,28,29,30,47,79],
+];
+function initMatchGame(){
+  mgInit=true;mgLevel=1;mgTries=0;
+  document.getElementById('mg-level').textContent=mgLevel;
+  document.getElementById('mg-tries').textContent=0;
+  document.getElementById('mg-matched').textContent=0;
+  document.getElementById('mg-result').classList.remove('show');
+  loadMatchLevel();
+}
+function loadMatchLevel(){
+  mgMatched=0;mgSelectedName=null;mgSelectedSym=null;mgMatchedPairs=new Set();
+  document.getElementById('mg-level').textContent=mgLevel;
+  document.getElementById('mg-matched').textContent=0;
+  document.getElementById('mg-result').classList.remove('show');
+  const nums=MATCH_LEVELS[(mgLevel-1)%MATCH_LEVELS.length];
+  mgPairs=nums.map(n=>elemByN[n]).filter(Boolean);
+  const nameOrder=shuffle([...mgPairs]),symOrder=shuffle([...mgPairs]);
+  const nc=document.getElementById('match-names'),sc=document.getElementById('match-symbols');
+  nc.innerHTML='';sc.innerHTML='';
+  nameOrder.forEach(el=>{
+    const d=document.createElement('div');
+    d.className='match-item';d.dataset.n=el.n;
+    d.textContent=el.kr;d.style.animation='pop-in 0.3s ease';
+    d.addEventListener('click',()=>selectMatchItem(d,'name',el.n));
+    nc.appendChild(d);
+  });
+  symOrder.forEach(el=>{
+    const d=document.createElement('div');
+    d.className='match-item';d.dataset.n=el.n;
+    d.textContent=el.sym;d.style.animation='pop-in 0.3s ease';
+    d.addEventListener('click',()=>selectMatchItem(d,'sym',el.n));
+    sc.appendChild(d);
+  });
+}
+function selectMatchItem(div,type,n){
+  if(mgMatchedPairs.has(n)||div.classList.contains('matched')) return;
+  if(type==='name'){if(mgSelectedName)mgSelectedName.el.classList.remove('selected');mgSelectedName={el:div,n};div.classList.add('selected');}
+  else{if(mgSelectedSym)mgSelectedSym.el.classList.remove('selected');mgSelectedSym={el:div,n};div.classList.add('selected');}
+  if(mgSelectedName&&mgSelectedSym){
+    mgTries++;document.getElementById('mg-tries').textContent=mgTries;
+    if(mgSelectedName.n===mgSelectedSym.n){
+      mgMatchedPairs.add(mgSelectedName.n);
+      mgSelectedName.el.classList.replace('selected','matched');
+      mgSelectedSym.el.classList.replace('selected','matched');
+      mgMatched++;document.getElementById('mg-matched').textContent=mgMatched;
+      showToast(`✓ ${elemByN[mgSelectedName.n].kr} = ${elemByN[mgSelectedName.n].sym}`, 'success', 900);
+      mgSelectedName=null;mgSelectedSym=null;
+      if(mgMatched===mgPairs.length) setTimeout(showMatchResult,500);
+    } else {
+      const ne=mgSelectedName.el,se=mgSelectedSym.el;
+      ne.classList.add('wrong-shake');se.classList.add('wrong-shake');
+      showToast('✗ 다시 시도!','error',700);
+      setTimeout(()=>{ne.classList.remove('selected','wrong-shake');se.classList.remove('selected','wrong-shake');},420);
+      mgSelectedName=null;mgSelectedSym=null;
+    }
+  }
+}
+function showMatchResult(){
+  const acc=Math.round((mgPairs.length/mgTries)*100);
+  document.getElementById('mg-final-score').textContent=`${acc}%`;
+  let grade,color,msg;
+  if(acc>=90){grade='S';color='#d4a000';msg='완벽한 매칭! 🏆';}
+  else if(acc>=70){grade='A';color='var(--correct)';msg='훌륭해요! 🎉';}
+  else if(acc>=50){grade='B';color='var(--accent)';msg='괜찮아요! 더 도전하세요!';}
+  else{grade='C';color='var(--accent2)';msg='조금 더 연습해봐요!';}
+  const gr=document.getElementById('mg-final-grade');
+  gr.textContent=`정확도 — ${grade}`;gr.style.cssText=`background:${color}22;color:${color};border:1px solid ${color};`;
+  document.getElementById('mg-final-msg').textContent=msg;
+  document.getElementById('mg-result').classList.add('show');
+  document.getElementById('mg-result').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function nextMatchLevel(){mgLevel++;mgTries=0;document.getElementById('mg-tries').textContent=0;loadMatchLevel();}
+
+showScreen('home');
+</script>
+</body>
+</html>
